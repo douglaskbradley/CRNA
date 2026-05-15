@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Build Your Perfect CRNA Assignment</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --navy-card: #1a2f4a;
+    --navy-hover: #1e3558;
+    --teal: #00c9a7;
+    --teal-light: #00e8c2;
+    --teal-dim: rgba(0,201,167,0.15);
+    --teal-border: rgba(0,201,167,0.5);
+    --gold: #f0b429;
+    --gold-dim: rgba(240,180,41,0.12);
+    --text: #e8f0fe;
+    --text-muted: #8899bb;
+    --text-faint: #4a5f7a;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.15);
+    --radius: 14px;
+    --radius-sm: 9px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--navy);
+    color: var(--text);
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+  }
+
+  #app { width: 100%; height: 100vh; display: flex; flex-direction: column; }
+
+  /* ── INTRO SCREEN ── */
+  #intro {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100vh;
+    background: var(--navy);
+    text-align: center; padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  #intro::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,201,167,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .intro-badge {
+    display: inline-block;
+    background: var(--teal-dim); border: 1px solid var(--teal-border);
+    color: var(--teal); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+  }
+  .intro-title {
+    font-size: clamp(36px, 6vw, 62px);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.03em; margin-bottom: 20px;
+    color: var(--text);
+  }
+  .intro-title span { color: var(--teal); }
+  .intro-sub {
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--text-muted); max-width: 560px;
+    line-height: 1.5; margin-bottom: 48px;
+  }
+  .btn-start {
+    background: var(--teal); color: #000;
+    font-size: 18px; font-weight: 700;
+    padding: 18px 52px; border: none;
+    border-radius: 100px; cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-start:active { transform: scale(0.96); background: var(--teal-light); }
+  .intro-footer {
+    position: absolute; bottom: 28px;
+    font-size: 13px; color: var(--text-faint);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── BUILDER SCREEN ── */
+  #builder {
+    display: none; flex-direction: column;
+    height: 100vh; overflow: hidden;
+  }
+  #builder.active { display: flex; }
+
+  .builder-header {
+    padding: 16px 28px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .builder-logo {
+    font-size: 13px; font-weight: 600;
+    color: var(--teal); letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .builder-cta {
+    font-size: 13px; color: var(--text-muted);
+    font-style: italic;
+  }
+  .btn-reset {
+    background: transparent; border: 1px solid var(--border-hover);
+    color: var(--text-muted); font-size: 13px; font-weight: 500;
+    padding: 7px 16px; border-radius: 100px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-reset:active { background: rgba(255,255,255,0.05); }
+
+  .sections-grid {
+    flex: 1; overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 12px; padding: 12px 16px;
+  }
+
+  /* Portrait fallback */
+  @media (max-width: 900px) {
+    .sections-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .section-card {
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .section-head {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .section-icon {
+    font-size: 22px; margin-bottom: 4px; line-height: 1;
+  }
+  .section-title {
+    font-size: 16px; font-weight: 700;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .section-hint {
+    font-size: 11px; color: var(--text-faint);
+    margin-top: 2px; font-weight: 400;
+  }
+  .section-body {
+    flex: 1; overflow-y: auto; padding: 10px;
+    display: flex; flex-wrap: wrap; gap: 7px;
+    align-content: flex-start;
+  }
+  .section-body::-webkit-scrollbar { width: 3px; }
+  .section-body::-webkit-scrollbar-track { background: transparent; }
+  .section-body::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 10px; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 8px 13px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .chip:active { transform: scale(0.95); }
+  .chip.selected {
+    background: var(--teal-dim);
+    border-color: var(--teal-border);
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .chip.priority-chip.selected {
+    background: var(--gold-dim);
+    border-color: rgba(240,180,41,0.5);
+    color: var(--gold);
+  }
+  .chip-check {
+    font-size: 11px; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .chip.selected .chip-check { opacity: 1; }
+
+  .priority-count {
+    font-size: 11px; color: var(--text-faint);
+    padding: 0 10px 6px;
+    display: none;
+  }
+  .priority-count.visible { display: block; }
+
+  /* ── BUILDER FOOTER ── */
+  .builder-footer {
+    padding: 10px 16px 14px;
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+  }
+  .selection-summary {
+    flex: 1; font-size: 12px; color: var(--text-faint);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .selection-count {
+    font-size: 12px; color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .btn-results {
+    background: var(--teal); color: #000;
+    font-size: 15px; font-weight: 700;
+    padding: 12px 28px; border: none;
+    border-radius: 100px; cursor: pointer;
+    white-space: nowrap;
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .btn-results.ready { opacity: 1; }
+  .btn-results:active { transform: scale(0.96); }
+
+  /* ── CONTACT SCREEN ── */
+  #contact {
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100vh; padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  #contact.active { display: flex; }
+  #contact::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(0,201,167,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-inner {
+    width: 100%; max-width: 560px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .contact-badge {
+    display: inline-block;
+    background: var(--teal-dim); border: 1px solid var(--teal-border);
+    color: var(--teal); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 100px;
+    margin-bottom: 20px; align-self: flex-start;
+  }
+  .contact-title {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800; letter-spacing: -0.03em;
+    line-height: 1.1; margin-bottom: 8px;
+  }
+  .contact-title span { color: var(--teal); }
+  .contact-sub {
+    font-size: 15px; color: var(--text-muted);
+    line-height: 1.5; margin-bottom: 36px;
+  }
+  .contact-fields { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .field-label {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.09em;
+    color: var(--text-faint);
+  }
+  .field-input {
+    background: var(--navy-card);
+    border: 1px solid var(--border-hover);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-size: 17px; font-weight: 500;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    font-family: inherit;
+    -webkit-appearance: none;
+  }
+  .field-input::placeholder { color: var(--text-faint); font-weight: 400; }
+  .field-input:focus { border-color: var(--teal-border); }
+  .field-input.error { border-color: rgba(231,76,60,0.6); }
+  .contact-error {
+    font-size: 13px; color: #e74c3c;
+    margin-bottom: 16px; display: none;
+    padding: 10px 14px;
+    background: rgba(231,76,60,0.08);
+    border: 1px solid rgba(231,76,60,0.25);
+    border-radius: var(--radius-sm);
+  }
+  .contact-error.visible { display: block; }
+  .contact-actions { display: flex; align-items: center; gap: 14px; }
+  .btn-contact-back {
+    background: transparent;
+    border: 1px solid var(--border-hover);
+    color: var(--text-muted); font-size: 15px; font-weight: 500;
+    padding: 14px 24px; border-radius: 100px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-contact-back:active { background: rgba(255,255,255,0.05); }
+  .btn-contact-submit {
+    flex: 1; background: var(--teal); color: #000;
+    font-size: 16px; font-weight: 700;
+    padding: 15px 28px; border: none;
+    border-radius: 100px; cursor: pointer;
+    transition: transform 0.15s;
+    font-family: inherit;
+  }
+  .btn-contact-submit:active { transform: scale(0.97); }
+
+  /* ── RESULTS SCREEN ── */
+  #results {
+    display: none; flex-direction: column;
+    height: 100vh; overflow: hidden;
+    padding: 24px 32px;
+  }
+  #results.active { display: flex; }
+
+  .results-header {
+    text-align: center; margin-bottom: 24px; flex-shrink: 0;
+  }
+  .results-badge {
+    display: inline-block;
+    background: var(--teal-dim); border: 1px solid var(--teal-border);
+    color: var(--teal); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 100px; margin-bottom: 12px;
+  }
+  .results-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 800; letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .results-title span { color: var(--teal); }
+
+  .results-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px; flex: 1; overflow: hidden;
+  }
+  @media (max-width: 900px) {
+    .results-grid { grid-template-columns: 1fr 1fr; overflow-y: auto; }
+  }
+
+  .result-card {
+    background: var(--navy-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px; overflow-y: auto;
+  }
+  .result-card::-webkit-scrollbar { width: 3px; }
+  .result-card::-webkit-scrollbar-thumb { background: var(--text-faint); border-radius: 10px; }
+
+  .result-card-title {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-faint); margin-bottom: 14px;
+  }
+  .result-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .result-chip {
+    padding: 7px 13px;
+    border-radius: 100px;
+    font-size: 13px; font-weight: 600;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    color: var(--teal);
+  }
+  .result-chip.gold {
+    background: var(--gold-dim);
+    border-color: rgba(240,180,41,0.5);
+    color: var(--gold);
+  }
+  .result-chip.none {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-faint);
+    font-weight: 400; font-style: italic;
+  }
+
+  .results-footer {
+    margin-top: 18px; flex-shrink: 0;
+    display: flex; align-items: center; gap: 12px;
+    justify-content: center;
+  }
+  .btn-talk {
+    background: var(--teal); color: #000;
+    font-size: 16px; font-weight: 700;
+    padding: 14px 36px; border: none;
+    border-radius: 100px; cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn-talk:active { transform: scale(0.96); }
+  .btn-back {
+    background: transparent;
+    border: 1px solid var(--border-hover);
+    color: var(--text-muted); font-size: 15px; font-weight: 500;
+    padding: 14px 28px; border-radius: 100px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-back:active { background: rgba(255,255,255,0.05); }
+
+  /* ── CONFIRM SCREEN ── */
+  #confirm {
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100vh; text-align: center; padding: 40px;
+    position: relative;
+  }
+  #confirm.active { display: flex; }
+  #confirm::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,201,167,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .confirm-icon { font-size: 64px; margin-bottom: 20px; }
+  .confirm-title {
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800; letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .confirm-title span { color: var(--teal); }
+  .confirm-sub {
+    font-size: 18px; color: var(--text-muted);
+    max-width: 480px; line-height: 1.55; margin-bottom: 40px;
+  }
+  .btn-next {
+    background: var(--teal); color: #000;
+    font-size: 17px; font-weight: 700;
+    padding: 16px 44px; border: none;
+    border-radius: 100px; cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn-next:active { transform: scale(0.96); }
+  .confirm-footer {
+    position: absolute; bottom: 28px;
+    font-size: 12px; color: var(--text-faint);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .pop-in { animation: popIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes popIn {
+    from { transform: scale(0.9); opacity: 0.5; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- INTRO -->
+  <div id="intro" class="fade-in">
+    <div class="intro-badge">Locum Tenens CRNA</div>
+    <h1 class="intro-title">Build Your<br><span>Perfect Assignment</span></h1>
+    <p class="intro-sub">Tell us exactly what your ideal locums role looks like — setting, schedule, practice style, and priorities. Takes 60 seconds.</p>
+    <button class="btn-start" onclick="showBuilder()">Start Building →</button>
+    <div class="intro-footer">Tap any tile to select it &nbsp;·&nbsp; Multiple selections welcome</div>
+  </div>
+
+  <!-- BUILDER -->
+  <div id="builder">
+    <div class="builder-header">
+      <div class="builder-logo">CRNA Assignment Builder</div>
+      <div class="builder-cta">Select everything that fits your ideal role</div>
+      <button class="btn-reset" onclick="resetAll()">↺ Reset</button>
+    </div>
+
+    <div class="sections-grid">
+
+      <!-- Setting -->
+      <div class="section-card">
+        <div class="section-head">
+          <div class="section-icon">🏥</div>
+          <div class="section-title">Setting</div>
+          <div class="section-hint">Where do you want to work?</div>
+        </div>
+        <div class="section-body" id="setting-chips">
+          <button class="chip" data-section="setting" data-value="Hospital" onclick="toggle(this)"><span class="chip-check">✓</span>Hospital</button>
+          <button class="chip" data-section="setting" data-value="ASC" onclick="toggle(this)"><span class="chip-check">✓</span>ASC</button>
+          <button class="chip" data-section="setting" data-value="Critical Access" onclick="toggle(this)"><span class="chip-check">✓</span>Critical Access</button>
+          <button class="chip" data-section="setting" data-value="GI Center" onclick="toggle(this)"><span class="chip-check">✓</span>GI Center</button>
+          <button class="chip" data-section="setting" data-value="OB" onclick="toggle(this)"><span class="chip-check">✓</span>OB</button>
+          <button class="chip" data-section="setting" data-value="Trauma" onclick="toggle(this)"><span class="chip-check">✓</span>Trauma</button>
+          <button class="chip" data-section="setting" data-value="Cardiac" onclick="toggle(this)"><span class="chip-check">✓</span>Cardiac</button>
+          <button class="chip" data-section="setting" data-value="Bread-and-Butter Cases" onclick="toggle(this)"><span class="chip-check">✓</span>Bread-and-Butter Cases</button>
+        </div>
+      </div>
+
+      <!-- Schedule -->
+      <div class="section-card">
+        <div class="section-head">
+          <div class="section-icon">📅</div>
+          <div class="section-title">Schedule</div>
+          <div class="section-hint">How do you want to structure your time?</div>
+        </div>
+        <div class="section-body" id="schedule-chips">
+          <button class="chip" data-section="schedule" data-value="4×10s" onclick="toggle(this)"><span class="chip-check">✓</span>4×10s</button>
+          <button class="chip" data-section="schedule" data-value="5×8s" onclick="toggle(this)"><span class="chip-check">✓</span>5×8s</button>
+          <button class="chip" data-section="schedule" data-value="3×12s" onclick="toggle(this)"><span class="chip-check">✓</span>3×12s</button>
+          <button class="chip" data-section="schedule" data-value="7-on / 7-off" onclick="toggle(this)"><span class="chip-check">✓</span>7-on / 7-off</button>
+          <button class="chip" data-section="schedule" data-value="Weekends Only" onclick="toggle(this)"><span class="chip-check">✓</span>Weekends Only</button>
+          <button class="chip" data-section="schedule" data-value="No Call" onclick="toggle(this)"><span class="chip-check">✓</span>No Call</button>
+          <button class="chip" data-section="schedule" data-value="Call OK If Paid Well" onclick="toggle(this)"><span class="chip-check">✓</span>Call OK If Paid Well</button>
+        </div>
+      </div>
+
+      <!-- Practice Style -->
+      <div class="section-card">
+        <div class="section-head">
+          <div class="section-icon">⚕️</div>
+          <div class="section-title">Practice Style</div>
+          <div class="section-hint">What kind of practice fits you?</div>
+        </div>
+        <div class="section-body" id="practice-chips">
+          <button class="chip" data-section="practice" data-value="Independent Practice" onclick="toggle(this)"><span class="chip-check">✓</span>Independent Practice</button>
+          <button class="chip" data-section="practice" data-value="Supervised Model" onclick="toggle(this)"><span class="chip-check">✓</span>Supervised Model</button>
+          <button class="chip" data-section="practice" data-value="Medical Direction" onclick="toggle(this)"><span class="chip-check">✓</span>Medical Direction</button>
+          <button class="chip" data-section="practice" data-value="Care Team Model" onclick="toggle(this)"><span class="chip-check">✓</span>Care Team Model</button>
+          <button class="chip" data-section="practice" data-value="Regional Blocks" onclick="toggle(this)"><span class="chip-check">✓</span>Regional Blocks</button>
+          <button class="chip" data-section="practice" data-value="OB Epidurals" onclick="toggle(this)"><span class="chip-check">✓</span>OB Epidurals</button>
+          <button class="chip" data-section="practice" data-value="Peds OK" onclick="toggle(this)"><span class="chip-check">✓</span>Peds OK</button>
+          <button class="chip" data-section="practice" data-value="No Hearts" onclick="toggle(this)"><span class="chip-check">✓</span>No Hearts</button>
+          <button class="chip" data-section="practice" data-value="No Heads" onclick="toggle(this)"><span class="chip-check">✓</span>No Heads</button>
+          <button class="chip" data-section="practice" data-value="No OB" onclick="toggle(this)"><span class="chip-check">✓</span>No OB</button>
+        </div>
+      </div>
+
+      <!-- Priority -->
+      <div class="section-card">
+        <div class="section-head">
+          <div class="section-icon">⭐</div>
+          <div class="section-title">Top Priorities</div>
+          <div class="section-hint">What matters most? Pick up to 3.</div>
+        </div>
+        <div class="priority-count" id="priority-count">0 of 3 selected</div>
+        <div class="section-body" id="priority-chips">
+          <button class="chip priority-chip" data-section="priority" data-value="Highest Pay" onclick="togglePriority(this)"><span class="chip-check">★</span>Highest Pay</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Close to Home" onclick="togglePriority(this)"><span class="chip-check">★</span>Close to Home</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Travel & Adventure" onclick="togglePriority(this)"><span class="chip-check">★</span>Travel & Adventure</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Predictable Schedule" onclick="togglePriority(this)"><span class="chip-check">★</span>Predictable Schedule</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Low Acuity" onclick="togglePriority(this)"><span class="chip-check">★</span>Low Acuity</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Fast Credentialing" onclick="togglePriority(this)"><span class="chip-check">★</span>Fast Credentialing</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Ongoing Assignment" onclick="togglePriority(this)"><span class="chip-check">★</span>Ongoing Assignment</button>
+          <button class="chip priority-chip" data-section="priority" data-value="Short-Term Coverage" onclick="togglePriority(this)"><span class="chip-check">★</span>Short-Term Coverage</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="builder-footer">
+      <div class="selection-summary" id="selection-summary">No selections yet — start tapping above</div>
+      <div class="selection-count" id="selection-count"></div>
+      <button class="btn-results" id="btn-results" onclick="showContact()">See My Profile →</button>
+    </div>
+  </div>
+
+  <!-- CONTACT INFO -->
+  <div id="contact">
+    <div class="contact-inner fade-in">
+      <div class="contact-badge">Almost there</div>
+      <h2 class="contact-title">Who should we<br><span>reach out to?</span></h2>
+      <p class="contact-sub">We'll match you with assignments that fit exactly what you built. No spam — a real recruiter will follow up.</p>
+      <div class="contact-fields">
+        <div class="field-row">
+          <div class="field-wrap">
+            <label class="field-label">First Name</label>
+            <input class="field-input" id="f-first" type="text" placeholder="Jane" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
+          </div>
+          <div class="field-wrap">
+            <label class="field-label">Last Name</label>
+            <input class="field-input" id="f-last" type="text" placeholder="Smith" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
+          </div>
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Phone Number</label>
+          <input class="field-input" id="f-phone" type="tel" placeholder="(555) 000-0000" autocomplete="off" inputmode="tel">
+        </div>
+        <div class="field-wrap">
+          <label class="field-label">Email Address</label>
+          <input class="field-input" id="f-email" type="email" placeholder="jane@example.com" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="email">
+        </div>
+      </div>
+      <div class="contact-error" id="contact-error">Please fill in all fields before continuing.</div>
+      <div class="contact-actions">
+        <button class="btn-contact-back" onclick="showBuilder()">← Back</button>
+        <button class="btn-contact-submit" onclick="submitContact()">View My Assignment Profile →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="results-header fade-in">
+      <div class="results-badge">Your Ideal CRNA Assignment</div>
+      <h2 class="results-title"><span id="results-name">Your</span> ideal<br><span>assignment profile</span></h2>
+    </div>
+
+    <div class="results-grid fade-in">
+      <div class="result-card">
+        <div class="result-card-title">🏥 Setting</div>
+        <div class="result-chips" id="result-setting"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-title">📅 Schedule</div>
+        <div class="result-chips" id="result-schedule"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-title">⚕️ Practice Style</div>
+        <div class="result-chips" id="result-practice"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-card-title">⭐ Top Priorities</div>
+        <div class="result-chips" id="result-priority"></div>
+      </div>
+    </div>
+
+    <div class="results-footer fade-in">
+      <button class="btn-back" onclick="showBuilder()">← Edit</button>
+      <button class="btn-talk" onclick="showConfirm()">Talk to a Recruiter →</button>
+    </div>
+  </div>
+
+  <!-- CONFIRM / THANK YOU -->
+  <div id="confirm">
+    <div class="confirm-icon">🤝</div>
+    <h2 class="confirm-title">We'll find your<br><span>perfect match</span></h2>
+    <p class="confirm-sub">A recruiter will reach out with assignments that match exactly what you built. We specialize in placing CRNAs in locums roles nationwide.</p>
+    <button class="btn-next" onclick="startOver()">Build Another Profile →</button>
+    <div class="confirm-footer">Thank you for stopping by!</div>
+  </div>
+
+</div>
+
+<script>
+  var selections = { setting: [], schedule: [], practice: [], priority: [] };
+  var contactInfo = { first: '', last: '', phone: '', email: '' };
+
+  function showBuilder() {
+    hide('intro'); hide('results'); hide('confirm'); hide('contact');
+    show('builder'); updateFooter();
+  }
+  function showContact() {
+    if (totalCount() === 0) return;
+    hide('builder');
+    show('contact');
+  }
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwQNbXOuQUkwal5n14dnJmgB-jvdjG7DMl3a4HdIHFO-aVKhD-iBQPjyShC3Bn_ZEocRw/exec';
+
+  function submitContact() {
+    var first = document.getElementById('f-first').value.trim();
+    var last  = document.getElementById('f-last').value.trim();
+    var phone = document.getElementById('f-phone').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var errEl = document.getElementById('contact-error');
+    var inputs = ['f-first','f-last','f-phone','f-email'];
+    var vals   = [first, last, phone, email];
+    var hasError = false;
+    inputs.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (!vals[i]) { el.classList.add('error'); hasError = true; }
+      else { el.classList.remove('error'); }
+    });
+    if (hasError) { errEl.classList.add('visible'); return; }
+    errEl.classList.remove('visible');
+    contactInfo = { first: first, last: last, phone: phone, email: email };
+
+    var payload = {
+      first:     first,
+      last:      last,
+      phone:     phone,
+      email:     email,
+      setting:   selections.setting.join(', ')   || 'None',
+      schedule:  selections.schedule.join(', ')  || 'None',
+      practice:  selections.practice.join(', ')  || 'None',
+      priorities:selections.priority.join(', ')  || 'None'
+    };
+
+    var submitBtn = document.querySelector('.btn-contact-submit');
+    submitBtn.textContent = 'Saving...';
+    submitBtn.disabled = true;
+
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .catch(function() { /* no-cors always fires catch — data still lands */ })
+    .finally(function() {
+      submitBtn.textContent = 'View My Assignment Profile →';
+      submitBtn.disabled = false;
+      showResults();
+    });
+  }
+  function showResults() {
+    buildResults();
+    hide('contact');
+    show('results');
+  }
+  function showConfirm() {
+    hide('results');
+    show('confirm');
+    document.getElementById('confirm').classList.add('fade-in');
+  }
+  function startOver() {
+    resetAll();
+    ['f-first','f-last','f-phone','f-email'].forEach(function(id){
+      var el = document.getElementById(id);
+      el.value = '';
+      el.classList.remove('error');
+    });
+    document.getElementById('contact-error').classList.remove('visible');
+    contactInfo = { first: '', last: '', phone: '', email: '' };
+    hide('confirm');
+    show('intro');
+    document.getElementById('intro').classList.add('fade-in');
+  }
+
+  function show(id) {
+    var el = document.getElementById(id);
+    el.style.display = 'flex';
+    setTimeout(function(){ el.classList.add('active'); }, 10);
+  }
+  function hide(id) {
+    var el = document.getElementById(id);
+    el.classList.remove('active');
+    el.style.display = 'none';
+  }
+
+  function toggle(chip) {
+    var section = chip.dataset.section;
+    var value = chip.dataset.value;
+    var idx = selections[section].indexOf(value);
+    if (idx > -1) {
+      selections[section].splice(idx, 1);
+      chip.classList.remove('selected');
+    } else {
+      selections[section].push(value);
+      chip.classList.add('selected');
+      chip.classList.add('pop-in');
+      setTimeout(function(){ chip.classList.remove('pop-in'); }, 200);
+    }
+    updateFooter();
+  }
+
+  function togglePriority(chip) {
+    var value = chip.dataset.value;
+    var idx = selections.priority.indexOf(value);
+    if (idx > -1) {
+      selections.priority.splice(idx, 1);
+      chip.classList.remove('selected');
+    } else {
+      if (selections.priority.length >= 3) return;
+      selections.priority.push(value);
+      chip.classList.add('selected');
+      chip.classList.add('pop-in');
+      setTimeout(function(){ chip.classList.remove('pop-in'); }, 200);
+    }
+    var count = document.getElementById('priority-count');
+    var n = selections.priority.length;
+    count.textContent = n + ' of 3 selected';
+    count.classList.toggle('visible', n > 0);
+    updateFooter();
+  }
+
+  function totalCount() {
+    return selections.setting.length + selections.schedule.length +
+           selections.practice.length + selections.priority.length;
+  }
+
+  function updateFooter() {
+    var total = totalCount();
+    var btn = document.getElementById('btn-results');
+    var summary = document.getElementById('selection-summary');
+    var countEl = document.getElementById('selection-count');
+    if (total === 0) {
+      summary.textContent = 'No selections yet — start tapping above';
+      countEl.textContent = '';
+      btn.classList.remove('ready');
+    } else {
+      var parts = [];
+      if (selections.setting.length) parts.push(selections.setting.join(', '));
+      if (selections.schedule.length) parts.push(selections.schedule.join(', '));
+      if (selections.practice.length) parts.push(selections.practice.join(', '));
+      if (selections.priority.length) parts.push(selections.priority.join(', '));
+      summary.textContent = parts.join(' · ');
+      countEl.textContent = total + ' selected';
+      btn.classList.add('ready');
+    }
+  }
+
+  function buildResults() {
+    var name = contactInfo.first ? contactInfo.first + "'s" : "Your";
+    document.getElementById('results-name').textContent = name;
+    renderChips('result-setting', selections.setting, false);
+    renderChips('result-schedule', selections.schedule, false);
+    renderChips('result-practice', selections.practice, false);
+    renderChips('result-priority', selections.priority, true);
+  }
+
+  function renderChips(containerId, values, isGold) {
+    var container = document.getElementById(containerId);
+    container.innerHTML = '';
+    if (values.length === 0) {
+      var el = document.createElement('div');
+      el.className = 'result-chip none';
+      el.textContent = 'None selected';
+      container.appendChild(el);
+      return;
+    }
+    values.forEach(function(v) {
+      var el = document.createElement('div');
+      el.className = 'result-chip' + (isGold ? ' gold' : '');
+      el.textContent = v;
+      container.appendChild(el);
+    });
+  }
+
+  function resetAll() {
+    selections = { setting: [], schedule: [], practice: [], priority: [] };
+    document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('selected'); });
+    document.getElementById('priority-count').classList.remove('visible');
+    updateFooter();
+  }
+
+  // Phone number auto-format
+  document.getElementById('f-phone').addEventListener('input', function(e) {
+    var v = e.target.value.replace(/\D/g,'').substring(0,10);
+    if (v.length >= 7) v = '(' + v.substring(0,3) + ') ' + v.substring(3,6) + '-' + v.substring(6);
+    else if (v.length >= 4) v = '(' + v.substring(0,3) + ') ' + v.substring(3);
+    else if (v.length >= 1) v = '(' + v;
+    e.target.value = v;
+  });
+
+  // Enter key moves to next field
+  ['f-first','f-last','f-phone','f-email'].forEach(function(id, i, arr) {
+    document.getElementById(id).addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var next = arr[i+1];
+        if (next) document.getElementById(next).focus();
+        else submitContact();
+      }
+    });
+  });
+
+  // iOS Safari: ensure tappable elements fire correctly
+  document.addEventListener('touchstart', function(){}, { passive: true });
+</script>
+</body>
+</html>
